@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMS Manila Bay‑Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+  <!-- Load JS after HTML parsing -->
+  <script src="root/admin.js" defer></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo"><br>IMS MANILA BAY<br><br></div>
+    <ul class="nav">
+      <li><button id="btnDashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</button></li>
+      <li class="dropdown">
+        <button id="btnPrograms"><i class="fas fa-layer-group"></i> Programs <i class="fas fa-caret-down"></i></button>
+        <ul class="dropdown-menu" id="programsMenu" style="display:none;"><br>
+          <li><button id="btnGympass">Gympas CS</button></li>
+          <li><button id="btnFashionPhile">Fashion Phile</button></li>
+        </ul>
+          <li class="dropdown">
+         <li><button id="btnSettings"><i class="fas fa-cog"></i> Settings</button></li>
+        <ul class="dropdown-menu" id="settingsMenu" style="display:none;"><br>
+          <li><button id="btnProfile"> Profile</button></li>
+          <li><button id="btnUsers">Users</button></li>
+        </ul>
+      </li>
+    </ul><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button class="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+
+  <div class="profile-bar">
+    <img id="sharedProfilePic" src="Assets/image.png" alt="Profile Picture" class="shared-profile-pic"/>
+    <span id="sharedProfileName">Ms Irene</span>
+    <span id="sharedProfilePosition">Associates Technician</span>
+  </div>
+
+  <!-- Dynamic content loads here -->
+  <div class="main" id="mainContent"></div>
+
+  <!-- Global Cropper Modal -->
+  <div id="cropperModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:9999;">
+    <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw; max-height:90vh;">
+      <img id="cropperImage" style="max-width:80vw; max-height:60vh; display:block; margin:auto;"/>
+      <div style="text-align:center; margin-top:10px;">
+        <button id="cropBtn" type="button">Crop & Save</button>
+        <button id="cancelCropBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="root/login.js"></script>
+</body>
+</html>
