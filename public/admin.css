@@ -3,13 +3,12 @@
   --sidebar-hover: #060808;
   --sidebar-active: #e0e0e0;
   --hover-text: rgb(31, 153, 190);
-  --sidebar-text: rgb(31, 153, 190);
+  --sidebar-text: #060808;
   --font-size: 20px;
 }
 
 /* Reset & Base Styles */
-*
-{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -123,7 +122,6 @@ body {
   margin-right: auto;
   margin-left: 220px;
   background: linear-gradient(to right, #a1a1a1ff, #e0e0e0ff);  
-
 }
 
 .profile-header {
@@ -153,19 +151,18 @@ body {
   text-align: left;
 }
 
-/* Floor Map */
+/* Floor Map Dashboard*/
 .five-ecom-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px;
 }
 
-.five-ecom-header h2 {
+.five-ecom-header h1 {
   color: #333;
   font-size: 40px;
   margin-bottom: 35px;
-    margin-top: 40px;
-
+  margin-top: 20px;
   text-align: center;
   font-weight: bold;
 }
@@ -195,7 +192,7 @@ body {
 .five-ecom-address i {
   color: var(--sidebar-text);
   font-size: 30px;
-   margin-left: 400px;
+  margin-left: 400px;
 }
 
 .five-ecom-address p {
@@ -205,41 +202,75 @@ body {
   font-weight: bolder;
 }
 
-/* Program Table */
+/* ✅ Program Table Center Layout */
+.program-table h1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color:#000000
+}
+.program-table .search-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 15px 25px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto 30px auto; 
+}
+
+.program-table .search-box i {
+  color: #666;
+  font-size: 16px;
+}
+
+.program-table .search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  padding: 5px;
+  font-size: 14px;
+}
 .program-table .table-controls {
   display: flex;
+  justify-content: space-between; 
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.program-table input[type="text"] {
-  padding: 6px;
-  border-radius: 4px;
+/* group ng left-side buttons */
+.program-table .table-controls .left-controls {
+  display: flex;
+  gap: 30px; 
+}
+
+/* right-side (Export) */
+.program-table .table-controls .right-controls {
+  display: flex;
+}
+
+/* general button design */
+.program-table .table-controls button {
+  padding: 6px 15px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  min-width: 150px;
-}
-.program-table .deployed
-.program-table .replacement 
-.program-table .edit 
-.program-table .add
-.program-table .delete,
-.program-table .export {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
+  background: #f8f8f8;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.program-table .add:hover,
-.program-table .delete
-.program-table .export:hover {
-  background-color: #0056b3;
+.program-table .table-controls button:hover {
+  background: var(--sidebar-hover);
+  color: #fff;
 }
+
 
 .program-table table {
   width: 100%;
@@ -248,10 +279,10 @@ body {
 
 .program-table th,
 .program-table td {
-  border: 1px solid #ddd;
+  border: 1px solid #030303;
   padding: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .program-table th {
@@ -266,7 +297,7 @@ body {
 
 .user-table th,
 .user-table td {
-  border: 1px solid #ddd;
+  border: 1px solid #faf8f8;
   padding: 10px;
   font-size: 14px;
   text-align: center;
@@ -279,7 +310,7 @@ body {
   padding: 30px;
   background: #fff;
   border-radius: 12px;
-box-shadow: none;
+  box-shadow: none;
 }
 
 .settings-section h2 {
@@ -390,7 +421,7 @@ box-shadow: none;
 
   .program-table .table-controls {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   #editProfileForm {
@@ -402,3 +433,37 @@ box-shadow: none;
     margin: 10px;
   }
 }
+.profile-table {
+  width: 80%;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+  padding: 20px;
+  font-size: 18px;
+}
+
+.profile-table th, 
+.profile-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.profile-table input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.save-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+

@@ -16,36 +16,32 @@
 
       <div class="right-panel">
         <div class="form-container">
-          <h2>L-o-g-i-n</h2>
           <form id="loginForm">
-  <input type="text" id="username" placeholder="Username" required />
-  <input type="password" id="password" placeholder="Password" required />
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
 
-  <div class="options">
-    <label>
-      <input type="checkbox" id="rememberMe" /> Remember me
-    </label>
-    <a href="#" id="forgotPassword">Forgot Password?</a>
-  </div>
+            <div class="options">
+             <label for="rememberMe">
+  <input type="checkbox" id="rememberMe" /> Remember me
+</label>
 
-  <button type="submit">Login</button>
+              <a href="#" id="forgotPassword">Forgot Password?</a>
+            </div>
 
-  <!-- ✨ OR Divider -->
-  <div class="divider">
-    <span>OR</span>
-  </div>
+            <button type="submit">Login</button>
 
-  <a class="signup-button" href="signup.html">
-    <button type="button">Signup</button>
-  </a>
+            <div class="signup-link">
+              <p>New User? <a class="signup-button" href="signup.html">Signup</a></p>
+            </div>
 
-  <p id="message"></p>
-</form>
+            <p id="message"></p>
+          </form>
         </div>
       </div>
     </div>
   </div>
+  
 
-  <script src="root/login.js"></script>
+<script src="root/login.js"></script>
 </body>
 </html>

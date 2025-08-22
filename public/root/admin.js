@@ -1,338 +1,369 @@
-// profile data helpers
-function getProfileData() {
-  return {
-    pic: localStorage.getItem('profilePic') || "Assets/image.png",
-    name: localStorage.getItem('profileName') || "Ms Irene",
-    position: localStorage.getItem('profilePosition') || "Associates Technician",
-    firstName: localStorage.getItem('profileFirstName') || "Irene Estelle",
-    lastName: localStorage.getItem('profileLastName') || "Domingo",
-    email: localStorage.getItem('profileEmail') || "irene@itcc.ph",
-    phone: localStorage.getItem('profilePhone') || "+63 123 456 7898"
+function getTodayDateTime() {
+  const now = new Date();
+  return now.toLocaleString(); 
+}
+
+function loadProfile() {
+  const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+
+  if (profileData.name) document.getElementById('profileName').value = profileData.name;
+  if (profileData.email) document.getElementById('profileEmail').value = profileData.email;
+  if (profileData.phone) document.getElementById('profilePhone').value = profileData.phone;
+  if (profileData.position) document.getElementById('profilePosition').value = profileData.position;
+  if (profileData.pic) {
+    document.getElementById('profilePic').src = profileData.pic;
+  } else {
+    document.getElementById('profilePic').src = 'default.png';
+  }
+
+  document.getElementById('uploadPic').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('profilePic').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  document.getElementById('saveProfile').addEventListener('click', saveProfile);
+}
+
+function saveProfile() {
+  const profileData = {
+    name: document.getElementById('profileName').value,
+    email: document.getElementById('profileEmail').value,
+    phone: document.getElementById('profilePhone').value,
+    position: document.getElementById('profilePosition').value,
+    pic: document.getElementById('profilePic').src
   };
+
+  localStorage.setItem('profileData', JSON.stringify(profileData));
+  let users = JSON.parse(localStorage.getItem('usersData') || "[]");
+  const existingIndex = users.findIndex(u => u.email === profileData.email);
+  if (existingIndex >= 0) {
+    users[existingIndex] = profileData;
+  } else {
+    users.push(profileData);
+  }
+  localStorage.setItem('usersData', JSON.stringify(users));
+
+  alert("Profile saved!");
 }
 
-function setProfileData(d) {
-  Object.entries(d).forEach(([k, v]) => localStorage.setItem(k, v));
+function loadUsers() {
+  const users = JSON.parse(localStorage.getItem('usersData') || "[]");
+  const tbody = document.querySelector('#usersTable tbody');
+  tbody.innerHTML = "";
+  users.forEach(user => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="${user.pic}" width="50" alt="User Pic"></td>
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td>${user.phone}</td>
+      <td>${user.position}</td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-function updateSharedProfileBar() {
-  const d = getProfileData();
-  document.getElementById('sharedProfilePic').src = d.pic;
-  document.getElementById('sharedProfileName').textContent = d.name;
-  document.getElementById('sharedProfilePosition').textContent = d.position;
+function saveTableData(programKey) {
+  const rows = document.querySelectorAll('.program-table tbody tr');
+  const data = Array.from(rows).map(row => Array.from(row.children).map(cell => cell.textContent));
+  localStorage.setItem(programKey, JSON.stringify(data));
 }
 
-// Default content snippets
-const dashboardContent = `
- <section class="dashboard-section">
-    <div class="five-ecom-header">
-      <h2>FIVE ECOM 9th FLOOR</h2>
+function loadTableData(programKey) {
+  const table = document.querySelector('.program-table tbody');
+  const data = JSON.parse(localStorage.getItem(programKey) || "[]");
+  table.innerHTML = "";
+  data.forEach(rowData => {
+    const row = document.createElement('tr');
+    row.innerHTML = rowData.map(cell => `<td>${cell}</td>`).join('');
+    table.appendChild(row);
+  });
+
+  enableRowSelection();
+}
+
+function enableRowSelection() {
+  document.querySelectorAll('.program-table tbody tr').forEach(row => {
+    row.onclick = function () {
+      this.classList.toggle('selected');
+      this.style.backgroundColor = this.classList.contains('selected') ? '#ffe6e6' : '';
+    };
+  });
+}
+
+const gympassContent = `
+  <div class="program-table"> 
+    <h1>GYMPASS CS</h1>
+    <div class="search-box" style="margin: 30px 0;">
+      <i class="fas fa-search left-icon"></i>
+      <input type="text" id="searchInputGympass" placeholder="FILTER BY PORT">
     </div>
-    <div class="five-ecom-map-container">
-      <img src="Assets/Floormap.jpg" alt="Five Ecom Building" class="five-ecom-map"/>
+
+    <div class="table-controls">
+      <div class="left-controls">
+        <button class="deployed"><i class="fas fa-server"></i> DEPLOYED</button>
+        <button class="replacement"><i class="fas fa-file"></i> REPLACEMENT</button>
+        <button class="edit"><i class="fas fa-edit"></i> EDIT</button>
+        <button class="add"><i class="fas fa-plus"></i> ADD</button>
+        <button class="delete"><i class="fas fa-trash"></i> DELETE</button>
+      </div>
+      <div class="right-controls">
+        <button class="export"><i class="fas fa-download"></i> EXPORT</button>
+      </div>
     </div>
-    <div class="five-ecom-address">
-      <i class="fas fa-location-dot"></i>
-      <p>9th floor, Five Ecom Center, Mall of Asia Complex, Harbor Drive, Pasay City 1300, Philippines</p>
-    </div>
-  </section>
+    
+    <table border="1">
+      <thead>
+        <tr>
+          <th>PROGRAM</th>
+          <th>PORT</th>
+          <th>CPU SN</th>
+          <th>CPU MODEL</th>
+          <th>MONITOR-1 SN</th>
+          <th>MONITOR-1 MODEL</th>
+          <th>MONITOR-2 SN</th>
+          <th>MONITOR-2 MODEL</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 `;
 
-function getProfileContent() {
-  const d = getProfileData();
-  return `
-    <section class="profile-section">
-      <div class="profile-header">
-        <label for="profilePicInput"><img id="profilePic" src="${d.pic}" class="image" style="cursor:pointer;"/></label>
-        <input type="file" id="profilePicInput" accept="image/*" style="display:none;">
-        <div><h2>${d.name}</h2><p>${d.position} <i class="fas fa-pen"></i></p></div>
-      </div>
-      <table class="info-table">
-        <tr><th>First Name</th><th>Last Name</th></tr>
-        <tr><td>${d.firstName}</td><td>${d.lastName}</td></tr>
-        <tr><th>Email Address</th><th>Phone</th></tr>
-        <tr><td>${d.email}</td><td>${d.phone}</td></tr>
-      </table>
-    </section>
-  `;
+const fashionPhileContent = gympassContent
+  .replace("GYMPASS CS", "FASHION PHILE")
+  .replace("searchInputGympass", "searchInputFashion");
+
+
+  function rebindProgramEvents() {
+  const isGympass = document.querySelector('h1')?.textContent.includes("GYMPASS");
+  const storageKey = isGympass ? "gympassTableData" : "fashionTableData";
+
+  loadTableData(storageKey);
+
+  document.querySelectorAll('.add').forEach(btn => {
+    btn.onclick = () => {
+      const table = btn.closest('.program-table').querySelector('tbody');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${prompt("PROGRAM") || ''}</td>
+        <td>${prompt("PORT") || ''}</td>
+        <td>${prompt("CPU SN") || ''}</td>
+        <td>${prompt("CPU MODEL") || ''}</td>
+        <td>${prompt("MONITOR-1 SN") || ''}</td>
+        <td>${prompt("MONITOR-1 MODEL") || ''}</td>
+        <td>${prompt("MONITOR-2 SN") || ''}</td>
+        <td>${prompt("MONITOR-2 MODEL") || ''}</td>
+        <td>DEPLOYED - ${getTodayDateTime()}</td>
+      `;
+      table.appendChild(row);
+      enableRowSelection();
+      saveTableData(storageKey);
+    };
+  });
+
+
+  document.querySelectorAll('.delete').forEach(btn => {
+    btn.onclick = () => {
+      const table = btn.closest('.program-table').querySelector('tbody');
+      const selectedRows = table.querySelectorAll('tr.selected');
+      if (selectedRows.length === 0) {
+        alert("Please select rows to delete.");
+        return;
+      }
+      if (!confirm(`Are you sure you want to delete ${selectedRows.length} row(s)?`)) return;
+      selectedRows.forEach(row => row.remove());
+      saveTableData(storageKey);
+    };
+  });
+
+  document.querySelectorAll('.edit').forEach(btn => {
+    btn.onclick = () => {
+      const table = btn.closest('.program-table').querySelector('tbody');
+      const isEditing = btn.classList.contains('editing');
+
+      if (!isEditing) {
+        previousTableData = Array.from(table.rows).map(row => Array.from(row.cells).map(cell => cell.textContent));
+        table.querySelectorAll('td').forEach(cell => {
+          if (cell.cellIndex !== 8) {
+            cell.setAttribute('contenteditable', true);
+            cell.style.backgroundColor = '#fff7e6';
+          }
+        });
+        btn.textContent = "SAVE";
+      } else {
+        const now = getTodayDateTime();
+        Array.from(table.rows).forEach((row, rowIndex) => {
+          const newRowData = Array.from(row.cells).map(cell => cell.textContent);
+          const oldRowData = previousTableData[rowIndex] || [];
+          let isReplacement = false;
+          for (let i = 1; i <= 6; i++) {
+            if (newRowData[i] !== oldRowData[i]) isReplacement = true;
+          }
+          if (isReplacement) row.cells[8].textContent = `REPLACEMENT - ${now}`;
+        });
+        table.querySelectorAll('td').forEach(cell => {
+          cell.removeAttribute('contenteditable');
+          cell.style.backgroundColor = '';
+        });
+        btn.textContent = "EDIT";
+        saveTableData(storageKey);
+      }
+      btn.classList.toggle('editing');
+    };
+  });
+
+
+  document.querySelectorAll('.deployed').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.program-table tbody tr').forEach(row => {
+      const status = row.children[8]?.textContent || "";
+      row.style.display = status.includes("DEPLOYED") ? '' : 'none';
+    });
+  };
+});
+
+document.querySelectorAll('.replacement').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.program-table tbody tr').forEach(row => {
+      const status = row.children[8]?.textContent || "";
+      row.style.display = status.includes("REPLACEMENT") ? '' : 'none';
+    });
+  };
+});
+
+
+  document.getElementById('searchInputGympass')?.addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('.program-table tbody tr').forEach(row => {
+      const program = row.children[0]?.textContent.toLowerCase() || "";
+      const port = row.children[1]?.textContent.toLowerCase() || "";
+      row.style.display = (program.includes(val) || port.includes(val)) ? '' : 'none';
+    });
+  });
+
+  document.getElementById('searchInputFashion')?.addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('.program-table tbody tr').forEach(row => {
+      const program = row.children[0]?.textContent.toLowerCase() || "";
+      const port = row.children[1]?.textContent.toLowerCase() || "";
+      row.style.display = (program.includes(val) || port.includes(val)) ? '' : 'none';
+    });
+  });
 }
 
-function getSettingsContent() {
-  const d = getProfileData();
-  return `
-        <button> Edit Profile </button> 
-    <section class="settings-section">
-      <h2>Edit Profile</h2>
-      <form id="editProfileForm">
-        <div><img id="editProfilePic" src="${d.pic}" class="shared-profile-pic" style="cursor:pointer;"></div>
-        <input type="file" id="editProfilePicInput" accept="image/*" style="display:none;">
-        <div><label>Name:</label><input type="text" id="editProfileName" value="${d.name}" required></div>
-        <div><label>Position:</label><input type="text" id="editProfilePosition" value="${d.position}" required></div>
-        <div><label>First Name:</label><input type="text" id="editProfileFirstName" value="${d.firstName}" required></div>
-        <div><label>Last Name:</label><input type="text" id="editProfileLastName" value="${d.lastName}" required></div>
-        <div><label>Email:</label><input type="email" id="editProfileEmail" value="${d.email}" required></div>
-        <div><label>Phone:</label><input type="text" id="editProfilePhone" value="${d.phone}" required></div>
-        <button type="submit">Save Changes</button>
-        <div id="settingsMsg" style="color:green; margin-top:10px;"></div>
-      </form>
-    </section>
-  `;
-}
+let currentUserRole = "user";
 
-const gympassContent = `<div class="program-table">
- <h1>GYMPAS CS</h1>
- <br><br><button class="search">
-  <i class="fas fa-search left-icon"></i>
-  FILTER BY PORT
-  <i class="fas fa-microphone right-icon"></i>
-</button>
-   <br><br><br><br>
+const dashboardContent = `
+   <h1>FIVE ECOM 9th FLOOR</h1>
+<div style="margin-top:20px; justify-content: center; text-align: center; font-size:50px; font-weight:bold;">
+    <p>Level 9 Five Ecom Center, Mall of Asia Complex, Harbor Drive, Pasay City 1300, Phillippines</p>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.97475675724!2d121.05626947413406!3d14.60044587843924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7b7a8f5fef7%3A0x9d5a6ed5e90c2f75!2sManila%2C%20Philippines!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph" 
+      width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+    </iframe>
+  </div>
+`;
 
-      <div class="table-controls">
-        <div>
-          <button class="deployed"><i class="fas fa-file-export"></i> DEPLOYED</button>
-          <button class="replacement"><i class="fas fa-file-export"></i> REPLACEMENT</button>
-          <button class="edit"><i class="fas fa-file-export"></i> EDIT</button>
-          <button class="add"><i class="fas fa-plus"></i> ADD </button>
-          <button class="delete"><i class="fas fa-plus"></i> DELETE </button>
-          <button class="export"><i class="fas fa-file-export"></i> EXPORT</button>
-          
-          
-          
+const profileContent = `
+  <div class="profile-container">
+    <h1>Profile</h1>
+    <table class="profile-table">
+      <tr>
+        <td rowspan="4">
+          <img id="profilePic" src="default.png" alt="Profile Picture" width="120">
+          <input type="file" id="uploadPic">
+        </td>
+        <td>Name:</td>
+        <td><input type="text" id="profileName"></td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td><input type="email" id="profileEmail"></td>
+      </tr>
+      <tr>
+        <td>Phone:</td>
+        <td><input type="text" id="profilePhone"></td>
+      </tr>
+      <tr>
+        <td>Position:</td>
+        <td><input type="text" id="profilePosition"></td>
+      </tr>
+    </table>
+    <button id="saveProfile">Save</button>
+  </div>
+`;
 
-        </div>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>PROGRAM</th>
-            <th>PORT#</th>
-            <th>CPU SN</th>
-            <th>MODEL</th>
-            <th>MONITOR#1-SN</th>
-            <th>MODEL</th>
-            <th>MONITOR#2-SN</th>
-            <th>PREVIOUS</th>
-            <th>LATEST</th>
+const usersManagementContent = `
+  <div class="users-container">
+    <h1>Users</h1>
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>Picture</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+`;
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ABG</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-
-
-            <td>
-            </td>
-          </tr>
-          <!-- Add more rows as needed -->
-        </tbody>
-      </table>
-    </div>
-  </section>`; 
-
-const fashionPhileContent = `<div class="program-table">
- <h1>GYMPAS CS</h1>
- <br><br><button class="search">
-  <i class="fas fa-search left-icon"></i>
-  FILTER BY PORT
-  <i class="fas fa-microphone right-icon"></i>
-</button>
-     <br><br><br><br>
-      <div class="table-controls">
-        <div>
-          <button class="deployed"><i class="fas fa-file-export"></i> DEPLOYED</button>
-          <button class="replacement"><i class="fas fa-file-export"></i> REPLACEMENT</button>
-          <button class="edit"><i class="fas fa-file-export"></i> EDIT</button>
-          <button class="add"><i class="fas fa-plus"></i> ADD </button>
-          <button class="delete"><i class="fas fa-plus"></i> DELETE </button>
-          <button class="export"><i class="fas fa-file-export"></i> EXPORT</button>
-        </div>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>FP001</td>
-            <td>Jane Smith</td>
-            <td>T-shirt, Pants</td>
-            <td>₱1,500</td>
-            <td><span class="status pending">Pending</span></td>
-            <td>
-              <button class="btn-edit"><i class="fas fa-edit"></i></button>
-              <button class="btn-delete"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
-          <!-- Add more rows as needed -->
-        </tbody>
-      </table>
-    </div>
-  </section>`;
-const usersContent = ` <section class="users-section">
-    <div class="users-header">
-      <h2><i class="fas fa-users"></i> User Management</h2>
-    </div>
-
-    <div class="users-controls">
-      <div class="search-filter">
-        <input type="text" placeholder="Search users...">
-        <select>
-          <option value="">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="staff">Staff</option>
-        </select>
-      </div>
-      <button class="add-user"><i class="fas fa-user-plus"></i> Add User</button>
-    </div>
-
-    <div class="users-grid">
-      <div class="user-card">
-        <img src="images/image.png" alt="User" class="user-avatar">
-        <h3>John Doe</h3>
-        <p class="role">Admin</p>
-        <p class="email">john@example.com</p>
-        <div class="user-actions">
-          <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
-          <button class="btn-delete"><i class="fas fa-trash"></i> Delete</button>
-        </div>
-      </div>
-      <!-- Add more user cards as needed -->
-    </div>
-  </section>`;
-
-// SPA navigation & event binding
 function loadContent(html, callback) {
   document.getElementById('mainContent').innerHTML = html;
   if (callback) callback();
 }
 
-function setActive(btn) {
-  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  localStorage.setItem('lastActivePage', btn.id);
-  document.getElementById('programsMenu').style.display = 'none';
-}
-
-function rebindProfileEvents() {
-  const profilePicInput = document.getElementById('profilePicInput');
-  const profilePic = document.getElementById('profilePic');
-  profilePic.src = getProfileData().pic;
-  profilePic.onclick = () => profilePicInput.click();
-
-  profilePicInput.onchange = function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      const cropperImage = document.getElementById('cropperImage');
-      cropperImage.src = evt.target.result;
-      const cropperModal = document.getElementById('cropperModal');
-      cropperModal.style.display = 'flex';
-      const cropper = new Cropper(cropperImage, {
-        aspectRatio: 1,
-        viewMode: 1,
-        movable: true,
-        zoomable: true,
-        scalable: true,
-        rotatable: true,
-        responsive: true,
-      });
-
-      document.getElementById('cropBtn').onclick = function () {
-        const canvas = cropper.getCroppedCanvas({ width: 200, height: 200, imageSmoothingQuality: 'high' });
-        const dataUrl = canvas.toDataURL();
-        let d = getProfileData();
-        d.pic = dataUrl;
-        setProfileData(d);
-        updateSharedProfileBar();
-        cropperModal.style.display = 'none';
-        loadContent(getProfileContent(), rebindProfileEvents);
-      };
-
-      document.getElementById('cancelCropBtn').onclick = function () {
-        cropper.destroy();
-        cropperModal.style.display = 'none';
-      };
-    };
-    reader.readAsDataURL(file);
-  };
-}
-
-function rebindSettingsEvents() {
-  const editProfilePic = document.getElementById('editProfilePic');
-  const editProfilePicInput = document.getElementById('editProfilePicInput');
-  const form = document.getElementById('editProfileForm');
-  const msg = document.getElementById('settingsMsg');
-
-  editProfilePic.onclick = () => editProfilePicInput.click();
-  editProfilePicInput.onchange = function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      editProfilePic.src = evt.target.result;
-      let d = getProfileData();
-      d.pic = evt.target.result;
-      setProfileData(d);
-      updateSharedProfileBar();
-    };
-    reader.readAsDataURL(file);
-  };
-
-  form.onsubmit = function(e) {
-    e.preventDefault();
-    let d = getProfileData();
-    d.name = document.getElementById('editProfileName').value;
-    d.position = document.getElementById('editProfilePosition').value;
-    d.firstName = document.getElementById('editProfileFirstName').value;
-    d.lastName = document.getElementById('editProfileLastName').value;
-    d.email = document.getElementById('editProfileEmail').value;
-    d.phone = document.getElementById('editProfilePhone').value;
-    setProfileData(d);
-    updateSharedProfileBar();
-    msg.textContent = "Profile updated!";
-    loadContent(getProfileContent(), rebindProfileEvents);
-  };
-}
-
-// Setup navigation buttons
 function initNavigation() {
-  document.getElementById('btnDashboard').onclick = () => { setActive(btnDashboard); loadContent(dashboardContent); };
-  document.getElementById('btnProfile').onclick = () => { setActive(btnProfile); loadContent(getProfileContent(), rebindProfileEvents); };
-  document.getElementById('btnSettings').onclick = () => { setActive(btnSettings); loadContent(getSettingsContent(), rebindSettingsEvents); };
-  document.getElementById('btnPrograms').onclick = () => {
+  document.getElementById('btnDashboard')?.addEventListener('click', () => {
+    loadContent(dashboardContent);
+  });
+
+  document.getElementById('btnProfile')?.addEventListener('click', () => {
+    loadContent(profileContent, loadProfile);
+  });
+
+  document.getElementById('btnUsers')?.addEventListener('click', () => {
+    if (currentUserRole === "admin") {
+      loadContent(usersManagementContent, loadUsers);
+    } else {
+      alert("Only admins can access Users.");
+    }
+  });
+
+  document.getElementById('btnGympass')?.addEventListener('click', () => {
+    loadContent(gympassContent, rebindProgramEvents);
+  });
+
+  document.getElementById('btnFashionPhile')?.addEventListener('click', () => {
+    loadContent(fashionPhileContent, rebindProgramEvents);
+  });
+
+  document.getElementById('btnPrograms')?.addEventListener('click', () => {
     const menu = document.getElementById('programsMenu');
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-  };
-  document.getElementById('btnGympass').onclick = () => { setActive(btnGympass); loadContent(gympassContent); };
-  document.getElementById('btnFashionPhile').onclick = () => { setActive(btnFashionPhile); loadContent(fashionPhileContent); };
-  document.getElementById('btnUsers').onclick = () => { setActive(btnUsers); loadContent(usersContent); };
-  document.addEventListener('click', e => {
-    const dropdown = document.getElementById('programsMenu');
-    const btn = document.getElementById('btnPrograms');
-    if (!dropdown.contains(e.target) && e.target !== btn) dropdown.style.display = 'none';
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById("btnSettings")?.addEventListener("click", function () {
+    const menu = document.getElementById("settingsMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  });
+
+  document.querySelector('.logout')?.addEventListener('click', function () {
+    localStorage.removeItem('userRole'); 
+    localStorage.removeItem('loggedIn'); 
+    window.location.href = 'index.html';
   });
 }
-
-window.onload = function() {
-  updateSharedProfileBar();
+window.onload = function () {
   initNavigation();
-  const last = localStorage.getItem('lastActivePage') || 'btnDashboard';
-  document.getElementById(last).click();
+  document.getElementById('btnDashboard')?.click();
 };

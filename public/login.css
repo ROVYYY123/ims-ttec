@@ -1,3 +1,4 @@
+/* Body Styling */
 body {
   background-image: url('Assets/image.png');
   background-size: cover;
@@ -11,14 +12,6 @@ body {
   justify-content: center;
   font-family: Arial, sans-serif;
 }
-.bg {
-  
-  height: 300px;
-  width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
 
 /* Login Container */
 .login-container {
@@ -29,13 +22,14 @@ body {
   padding: 20px;
 }
 
-/* Main Container with Blur */
+/* Main Container */
 .container {
   display: flex;
-  width: 90%;
+  flex-wrap: wrap;
+  width: 100%;
   max-width: 1000px;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
+  border-radius: 20px;
   backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -44,13 +38,15 @@ body {
 /* Left Panel */
 .left-panel {
   flex: 1;
+  min-width: 300px;
   padding: 60px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(241, 229, 229);
-  font-size: 2.5rem;
+  color: #f1e5e5;
+  font-size: 2.3rem;
   font-weight: bold;
+  text-align: center;
 }
 
 .left-panel h1 {
@@ -61,6 +57,7 @@ body {
 /* Right Panel */
 .right-panel {
   flex: 1;
+  min-width: 300px;
   padding: 60px;
   display: flex;
   align-items: center;
@@ -74,83 +71,43 @@ body {
   text-align: center;
 }
 
-.form-container h2 {
-  margin-bottom: 20px;
-  color: rgb(112, 108, 108);
-  font-size: 40px;
-}
-
+/* Form Inputs */
 input {
   width: 100%;
-  padding: 12px 15px;
+  padding: 1.2rem;
   margin: 10px 0;
   border: none;
-  border-radius: 25px;
-  background: rgba(197, 183, 183, 0.2);
-  color: #f5f1f1;
+  border-radius: 10px;
+  background: whitesmoke;
+  color: #0f0f0f;
   font-size: 16px;
   outline: none;
 }
 
 input::placeholder {
-  color: #747272;
+  color: #000000;
 }
 
+/* Login Button */
 button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
   border: none;
   border-radius: 25px;
-  background: linear-gradient(to right, #000000, #4b2d28);
-  color: rgb(255, 249, 249);
+  background: rgb(3, 3, 73);
+  color: white;
   font-weight: bold;
   font-size: 24px;
   cursor: pointer;
   transition: all 0.3s ease;
-  
 }
 
 button:hover {
-  background: linear-gradient(to right, #4b2d28, #000000);
+  background: rgb(5, 5, 90);
 }
 
-.toggle {
-  margin-top: 20px;
-  display: inline-block;
-  color: rgb(204, 201, 201);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-#message {
-  margin-top: 10px;
-  color: red;
-  font-size: 14px;
-}
-.signup-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(to right, #000000, #434343);
-  color: rgb(255, 249, 249);
-  font-weight: bold;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-}
+/* Options Section */
 .options {
   display: flex;
   justify-content: space-between;
@@ -162,62 +119,59 @@ button {
 
 .options a {
   text-decoration: underline;
-  color: #888;
+  color: #ffffff;
   font-weight: bold;
-  
   cursor: pointer;
 }
 
 .options label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  color: #9b9999;
+  white-space: nowrap; 
+  color: #ffffff;
   cursor: pointer;
 }
 
 .options input[type="checkbox"] {
   accent-color: #333;
   transform: scale(1.2);
+  margin-right: 5px;
   cursor: pointer;
 }
-/* Divider Styling */
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 20px 0;
-}
 
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #ccc;
-}
-
-.divider span {
-  padding: 0 15px;
-  color: #fff;
-  font-weight: bold;
+/* Error / Message */
+#message {
+  margin-top: 10px;
+  color: red;
   font-size: 14px;
 }
 
-/* Signup Button Styling (match login) */
-.signup-button button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 25px;
-  background: linear-gradient(to right, #000000, #434343);
-  color: #fff;
-  font-weight: bold;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Signup Section */
+.signup-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #eeeeee;
 }
 
-.signup-button button:hover {
-  background: linear-gradient(to right, #4b2d28, #000000);
+.signup-link a {
+  margin-top: 15px;
+  color: #4555e6;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 30px;
+  }
+
+  .left-panel, .right-panel {
+    padding: 30px 20px;
+  }
+
+  .left-panel h1 {
+    font-size: 2rem;
+  }
 }

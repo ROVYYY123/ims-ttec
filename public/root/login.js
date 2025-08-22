@@ -1,40 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const savedUsername = localStorage.getItem("rememberedUsername");
-  if (savedUsername) {
-    document.getElementById("username").value = savedUsername;
-    document.getElementById("rememberMe").checked = true;
-  }
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("loginForm");
+  const msg = document.getElementById("message");
 
-  document.getElementById("loginForm").addEventListener("submit", function (event) {
-    event.preventDefault();
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
     const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const rememberMe = document.getElementById("rememberMe").checked;
+    const password = document.getElementById("password").value.trim();
 
-    if (rememberMe) {
-      localStorage.setItem("rememberedUsername", username);
-    } else {
-      localStorage.removeItem("rememberedUsername");
-    }
-
-    // Check hardcoded admin
     if (username === "admin" && password === "admin123") {
+      localStorage.setItem("isLoggedIn", "");
+      localStorage.setItem("username", username);true
       window.location.href = "admin.html";
-      return;
-    }
-
-    // Check saved user from signup
-    const newUser = JSON.parse(localStorage.getItem("newUser"));
-    if (newUser && username === newUser.username && password === newUser.password) {
-      window.location.href = "admin.html"; 
     } else {
-      document.getElementById("message").textContent = "Invalid credentials.";
+      msg.textContent = "Invalid username or password.";
+      msg.style.color = "red";
     }
-  });
-
-  document.getElementById("forgotPassword").addEventListener("click", function (event) {
-    event.preventDefault();
-    alert("Please contact the system administrator to reset your password.");
   });
 });
