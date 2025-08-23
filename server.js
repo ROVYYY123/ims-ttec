@@ -56,38 +56,7 @@ db.run(`
     previous_user TEXT,
     latest_user TEXT
   )
-`);
-
-// ────────────── AUTH ROUTES ──────────────
-
-// Signup
-app.post('/api/signup', (req, res) => {
-  const { username, password, role } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: "Username and password are required" });
-  }
-
-  db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
-    if (err) return res.status(500).json({ message: err.message });
-    if (row) return res.status(400).json({ message: "Username already exists" });
-
-    bcrypt.hash(password, 10, (err, hash) => {
-      if (err) return res.status(500).json({ message: err.message });
-
-      const userRole = role || 'user'; 
-
-    db.run(
-  'INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
-  [username, hash, userRole],
-  function(err) {
-    if (err) return res.status(500).json({ message: err.message });
-    res.json({ success: true, message: "Signup successful", id: this.lastID });
-  }
-);
-    });
-  });
-});
+`); 
 
 // Login
 app.post('/api/login', (req, res) => {
