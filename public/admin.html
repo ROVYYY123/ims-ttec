@@ -2,60 +2,488 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IMS Manila Bay‑Admin</title>
-  <link rel="stylesheet" href="admin.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-  <script src="root/admin.js" defer></script>
+  <title>Programs Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="admin.css"/>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="logo"><br>IMS MANILA BAY<br><br></div>
-    <ul class="nav">
-    <li><button id="btnDashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</button></li>
-    <li class="dropdown">
-  <button id="btnPrograms"><i class="fas fa-layer-group"></i> Programs <i class="fas fa-caret-down"></i></button>
-  <ul class="dropdown-menu" id="programsMenu" style="display:none;"><br>
-    <li><button id="btnGympass">Gympas CS</button></li>
-    <li><button id="btnFashionPhile">Fashion Phile</button></li>
-  </ul>
-</li>
-
-<li class="dropdown">
-  <button id="btnSettings" class="dropdown-btn">
-    <i class="fas fa-cog"></i> Settings <i class="fas fa-caret-down"></i>
-  </button>
-  <ul class="dropdown-menu" id="settingsMenu">
-    <li><button id="btnProfile">Profile</button></li>
-    <li><button id="btnUsers">Users</button></li>
-  </ul>
-</li>
-
-    </ul>
-    <button class="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
-  </div>
-  
-
-<div class="profile-bar">
-  <img id="sharedProfilePic" src="Assets/image.png" alt="Profile Picture" class="shared-profile-pic"/>
-  <span id="sharedProfileName">Ms Irene</span>
-  <span id="sharedProfilePosition">Associates Technician</span>
-</div>
-
-  <div class="main" id="mainContent">
-
-  <div id="cropperModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:9999;">
-    <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw; max-height:90vh;">
-      <img id="cropperImage" style="max-width:80vw; max-height:60vh; display:block; margin:auto;"/>
-      <div style="text-align:center; margin-top:10px;">
-        <button id="cropBtn" type="button">Crop & Save</button>
-        <button id="cancelCropBtn" type="button">Cancel</button>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"></div>
+        <h2>Asset Tracker</h2>
       </div>
-    </div>
+
+      <div class="navgroup">General</div>
+      <button class="btn" id="btnDashboard"><i class="fa-solid fa-gauge"></i>Dashboard</button>
+      <button class="btn" id="btnProfile"><i class="fa-solid fa-user"></i>Profile</button>
+      
+      <div class="navgroup">Programs</div>
+      <button class="btn" id="btnGympass"><i class="fa-solid fa-dumbbell"></i>Gympass</button>
+      <button class="btn" id="btnFashionPhile"><i class="fa-solid fa-gem"></i>Fashion Phile</button>
+      <button class="btn" id="btnTMobile"><i class="fa-solid fa-tower-cell"></i>T-Mobile</button>
+      <button class="btn" id="btnAmn"><i class="fa-solid fa-briefcase-medical"></i>AMN</button>
+      <button class="btn" id="btnShokz"><i class="fa-solid fa-headphones"></i>Shokz</button>
+      <button class="btn" id="btnAway"><i class="fa-solid fa-suitcase-rolling"></i>Away</button>
+      <button class="btn" id="btnTravel"><i class="fa-solid fa-plane"></i>Travel</button>
+      <button class="btn" id="btnEnergyAustralia"><i class="fa-solid fa-store"></i>Energy Australia</button>
+      <button class="btn" id="btnAldi"><i class="fa-solid fa-basket-shopping"></i> Aldi</button>
+      <button class="btn" id="btnCisco"><i class="fa-solid fa-network-wired"></i> Cisco</button>
+      <button class="btn" id="btnAfa"><i class="fa-solid fa-shield"></i> AFA</button>
+      <button class="btn" id="btnHcsc"><i class="fa-solid fa-hospital"></i> HCSC</button>
+      <button class="btn" id="btnAspirationBank"><i class="fa-solid fa-piggy-bank"></i> Aspiration Bank</button>
+      <button class="btn" id="btnNavia"><i class="fa-solid fa-clipboard-list"></i> Navia</button>
+      <button class="btn" id="btnAtmail"><i class="fa-solid fa-envelope"></i> Atmail</button>
+      <button class="btn" id="btnAbg"><i class="fa-solid fa-building"></i> ABG</button>
+      <button class="btn" id="btnUsaa"><i class="fa-solid fa-flag-usa"></i> USAA</button>
+      <button class="btn" id="btnPath"><i class="fa-solid fa-route"></i> Path</button>
+    </aside>
+
+    <!-- MAIN -->
+    <main style="flex:1;display:flex;flex-direction:column;min-width:0">
+      <header class="header">
+        <div><strong>FIVE ECOM 9th FLOOR</strong></div>
+        <div class="profile-bar">
+          <img id="sharedProfilePic" src="default.png" alt="Profile" />
+          <div class="profile-meta">
+            <div class="name" id="sharedProfileName">Your Name</div>
+            <div class="pos" id="sharedProfilePosition">Your Position</div>
+          </div>
+          <button id="btnLogout" class="ctl" style="font-size: 18px; margin-left:12px; background:#ef4444; color:#fff; border-radius:10px; padding:6px 12px; cursor:pointer">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </button>
+        </div>
+      </header>
+
+      <div id="mainContent"></div>
+    </main>
   </div>
 
+  <script>
+    /* ========================= UTIL ========================== */
+    function getTodayDateTime(){ return new Date().toLocaleString(); }
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    /* ========================= PROFILE ========================== */
+    function loadProfile(){
+      const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+      const fn = document.getElementById('profileFirstName');
+      if(fn){ 
+        document.getElementById('profileFirstName').value = profileData.firstName || "";
+        document.getElementById('profileMiddleName').value = profileData.middleName || "";
+        document.getElementById('profileLastName').value = profileData.lastName || "";
+        document.getElementById('profilePhone').value = profileData.phone || "";
+        document.getElementById('profilePosition').value = profileData.position || "";
+        document.getElementById('profileEmail').value = profileData.email || "";
+        document.getElementById('profilePic').src = profileData.pic || "default.png";
+
+        if (profileData.firstName) renderProfileTable(profileData);
+
+        document.getElementById('uploadPic').addEventListener('change', function(e){
+          const file = e.target.files[0]; if(!file) return;
+          const reader = new FileReader();
+          reader.onload = ev => document.getElementById('profilePic').src = ev.target.result;
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById('saveProfile').addEventListener('click', saveProfile);
+      }
+    }
+    function saveProfile(){
+      const profileData = {
+        firstName: document.getElementById('profileFirstName').value,
+        middleName: document.getElementById('profileMiddleName').value,
+        lastName: document.getElementById('profileLastName').value,
+        phone: document.getElementById('profilePhone').value,
+        position: document.getElementById('profilePosition').value,
+        email: document.getElementById('profileEmail').value,
+        pic: document.getElementById('profilePic').src
+      };
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+      updateProfileBar();
+      renderProfileTable(profileData);
+      alert("Profile saved!");
+      closeProfileModal();
+    }
+    function renderProfileTable(data){
+      const tbl = document.querySelector("#profileTable tbody");
+      if(!tbl) return;
+      tbl.innerHTML = `
+        <tr>
+          <td><img src="${data.pic || 'default.png'}" style="width:60px;height:60px;border-radius:50%;object-fit:cover"></td>
+          <td>${data.firstName || ''} ${data.middleName || ''} ${data.lastName || ''}</td>
+          <td>${data.phone || ''}</td>
+          <td>${data.position || ''}</td>
+          <td>${data.email || ''}</td>
+        </tr>
+      `;
+    }
+    function openProfileModal(){ document.getElementById("profileModal").style.display="flex"; }
+    function closeProfileModal(){ document.getElementById("profileModal").style.display="none"; }
+    function updateProfileBar(){
+      const d = JSON.parse(localStorage.getItem('profileData') || '{}');
+      const pic = document.getElementById('sharedProfilePic');
+      const nm = document.getElementById('sharedProfileName');
+      const pos = document.getElementById('sharedProfilePosition');
+      if(pic && d.pic) pic.src = d.pic;
+      if(nm) nm.textContent = `${d.firstName || ''} ${d.middleName || ''} ${d.lastName || ''}`.trim() || "Your Name";
+      if(pos) pos.textContent = d.position || "Your Position";
+    }
+
+    /* ========================= TABLE ========================== */
+    function saveTableData(programKey){
+      const rows = document.querySelectorAll('.program-table tbody tr');
+      const data = Array.from(rows).map(r => Array.from(r.children).map(c => c.textContent));
+      localStorage.setItem(programKey, JSON.stringify(data));
+    }
+    function loadTableData(programKey){
+      const table = document.querySelector('.program-table tbody');
+      const data = JSON.parse(localStorage.getItem(programKey) || "[]");
+      table.innerHTML = "";
+      data.forEach(rowData => {
+        const row = document.createElement('tr');
+        row.innerHTML = rowData.map(cell => `<td>${cell}</td>`).join('');
+        table.appendChild(row);
+      });
+      enableRowSelection();
+    }
+    function enableRowSelection(){
+      document.querySelectorAll('.program-table tbody tr').forEach(row=>{
+        row.onclick=function(){ this.classList.toggle('selected'); };
+      });
+    }
+
+    /* ========================= MODALS (program) ========================== */
+    function openModal(){ document.getElementById("floatingForm").style.display="flex"; }
+    function closeModal(){ document.getElementById("floatingForm").style.display="none"; }
+
+    /* ========================= CONTENTS ========================== */
+    const dashboardContent = `
+      <div class="card dashboard-container">
+        <h1 class="dashboard-title">FIVE ECOM 9th FLOOR</h1>
+        <p>Level 9 Five Ecom Center, Mall of Asia Complex, Harbor Drive, Pasay City 1300, Philippines</p>
+        <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.97475675724!2d121.05626947413406!3d14.60044587843924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7b7a8f5fef7%3A0x9d5a6ed5e90c2f75!2sManila%2C%20Philippines!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph"
+        width="100%" height="420" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    `;
+    const profileContent = `
+      <div class="card">
+        <h1>Profile</h1>
+        <p class="note">Edit your profile then save to update the header bar and summary.</p>
+        <div class="profile-summary">
+          <div class="profile-pic-wrap">
+            <img id="profilePic" src="default.png" alt="Profile Picture">
+            <label class="upload-btn" for="uploadPic"><i class="fa-solid fa-upload"></i> Choose photo</label>
+            <input id="uploadPic" type="file" accept="image/*" style="display:none">
+            <button class="edit-profile-btn" onclick="openProfileModal()"><i class="fa-solid fa-pen"></i> Edit Profile</button>
+          </div>
+          <div>
+            <table id="profileTable">
+              <thead>
+                <tr><th>Photo</th><th>Name</th><th>Phone</th><th>Position</th><th>Email</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Modal -->
+      <div id="profileModal" class="modal" style="display:none">
+        <div class="modal-content">
+          <span class="closeBtn" onclick="closeProfileModal()">&times;</span>
+          <h2><i class="fa fa-user-circle"></i> Edit Profile</h2>
+          <div class="form-grid">
+            <div>
+              <label>First Name</label>
+              <input id="profileFirstName" type="text" placeholder="First name">
+            </div>
+            <div>
+              <label>Middle Name</label>
+              <input id="profileMiddleName" type="text" placeholder="Middle name">
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input id="profileLastName" type="text" placeholder="Last name">
+            </div>
+            <div>
+              <label>Phone</label>
+              <input id="profilePhone" type="text" placeholder="Phone">
+            </div>
+            <div>
+              <label>Position</label>
+              <input id="profilePosition" type="text" placeholder="Position">
+            </div>
+            <div>
+              <label>Email</label>
+              <input id="profileEmail" type="email" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button id="saveProfile" class="ctl" style="background:var(--primary)">Save Changes</button>
+            <button class="ctl" style="background:#6b7280" onclick="closeProfileModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+
+    function programTemplate(title, searchId){
+      return `
+        <div class="card program-table">
+          <h1>${title}</h1>
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="${searchId}" placeholder="FILTER BY PROGRAM OR PORT">
+          </div>
+
+          <div class="table-controls">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="ctl deployed"><i class="fas fa-server"></i> DEPLOYED</button>
+              <button class="ctl replacement"><i class="fas fa-file"></i> REPLACEMENT</button>
+              <button class="ctl showall"><i class="fas fa-list"></i> SHOW ALL</button>
+              <button class="ctl edit"><i class="fas fa-edit"></i> EDIT</button>
+              <button class="ctl add"><i class="fas fa-plus"></i> ADD</button>
+              <button class="ctl delete"><i class="fas fa-trash"></i> DELETE</button>
+            </div>
+            <div>
+              <button class="ctl export"><i class="fas fa-download"></i> EXPORT</button>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>PROGRAM</th>
+                <th>PORT</th>
+                <th>CPU SN</th>
+                <th>CPU MODEL</th>
+                <th>MONITOR-1 SN</th>
+                <th>MONITOR-1 MODEL</th>
+                <th>MONITOR-2 SN</th>
+                <th>MONITOR-2 MODEL</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Add Modal -->
+        <div id="floatingForm" class="modal">
+          <div class="modal-content">
+            <span class="closeBtn" onclick="closeModal()">&times;</span>
+            <h2>Add Item</h2>
+            <div class="form-grid">
+              <div><label>PROGRAM</label><input id="formProgram" type="text"></div>
+              <div><label>PORT</label><input id="formPort" type="text"></div>
+              <div><label>CPU SN</label><input id="formCpuSn" type="text"></div>
+              <div><label>CPU MODEL</label><input id="formCpuModel" type="text"></div>
+              <div><label>MONITOR-1 SN</label><input id="formMon1Sn" type="text"></div>
+              <div><label>MONITOR-1 MODEL</label><input id="formMon1Model" type="text"></div>
+              <div><label>MONITOR-2 SN</label><input id="formMon2Sn" type="text"></div>
+              <div><label>MONITOR-2 MODEL</label><input id="formMon2Model" type="text"></div>
+            </div>
+            <div class="form-actions">
+              <button id="saveItemBtn" class="ctl"><i class="fa-solid fa-check"></i> Save</button>
+              <button id="cancelItemBtn" class="ctl" onclick="closeModal()"><i class="fa-solid fa-xmark"></i> Cancel</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ========================= CRUD EVENTS (same for all) ========================== */
+    function rebindProgramEvents(title, searchId){
+      const storageKey = title + "TableData";
+      let previousTableData = [];
+      loadTableData(storageKey);
+
+      // Add
+      document.querySelector('.add').onclick = () => {
+        openModal();
+        document.getElementById('saveItemBtn').onclick = () => {
+          const newItem = {
+            program: document.getElementById('formProgram').value.trim(),
+            port: document.getElementById('formPort').value.trim(),
+            cpuSn: document.getElementById('formCpuSn').value.trim(),
+            cpuModel: document.getElementById('formCpuModel').value.trim(),
+            mon1Sn: document.getElementById('formMon1Sn').value.trim(),
+            mon1Model: document.getElementById('formMon1Model').value.trim(),
+            mon2Sn: document.getElementById('formMon2Sn').value.trim(),
+            mon2Model: document.getElementById('formMon2Model').value.trim(),
+          };
+          if(!newItem.program || !newItem.port){ alert("Program and Port are required."); return; }
+          const table = document.querySelector('.program-table tbody');
+          const exists = Array.from(table.rows).some(r => r.cells[0].textContent === newItem.program && r.cells[1].textContent === newItem.port);
+          if(exists){ alert("Duplicate entry found!"); return; }
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${newItem.program}</td>
+            <td>${newItem.port}</td>
+            <td>${newItem.cpuSn}</td>
+            <td>${newItem.cpuModel}</td>
+            <td>${newItem.mon1Sn}</td>
+            <td>${newItem.mon1Model}</td>
+            <td>${newItem.mon2Sn}</td>
+            <td>${newItem.mon2Model}</td>
+            <td>DEPLOYED - ${getTodayDateTime()}</td>
+          `;
+          table.appendChild(row);
+          enableRowSelection();
+          saveTableData(storageKey);
+          document.querySelectorAll('#floatingForm input').forEach(i=>i.value="");
+          closeModal();
+        };
+      };
+
+      // Delete
+      document.querySelector('.delete').onclick = () => {
+        const table = document.querySelector('.program-table tbody');
+        const selected = table.querySelectorAll('tr.selected');
+        if(!selected.length){ alert("Please select rows to delete."); return; }
+        if(!confirm(`Delete ${selected.length} row(s)?`)) return;
+        selected.forEach(r=>r.remove());
+        saveTableData(storageKey);
+      };
+
+      // Edit toggle with replacement detection
+      document.querySelector('.edit').onclick = (e) => {
+        const btn = e.currentTarget;
+        const table = document.querySelector('.program-table tbody');
+        const isEditing = btn.classList.contains('editing');
+
+        if(!isEditing){
+          previousTableData = Array.from(table.rows).map(r=>Array.from(r.cells).map(c=>c.textContent));
+          table.querySelectorAll('td').forEach(cell=>{
+            if(cell.cellIndex !== 8){ cell.contentEditable = true; cell.style.background = '#14110b'; }
+          });
+          btn.textContent = "SAVE";
+        } else {
+          const now = getTodayDateTime();
+          Array.from(table.rows).forEach((row, idx)=>{
+            const newData = Array.from(row.cells).map(c=>c.textContent);
+            const oldData = previousTableData[idx] || [];
+            let changed = false;
+            for(let i=1;i<=6;i++){ if(newData[i] !== oldData[i]) changed = true; } 
+            if(changed) row.cells[8].textContent = `REPLACEMENT - ${now}`;
+          });
+          table.querySelectorAll('td').forEach(cell=>{ cell.contentEditable=false; cell.style.background=''; });
+          btn.textContent = "EDIT";
+          saveTableData(storageKey);
+        }
+        btn.classList.toggle('editing');
+      };
+
+      // Filters
+      document.querySelector('.deployed').onclick = () => {
+        document.querySelectorAll('.program-table tbody tr').forEach(row=>{
+          row.style.display = row.cells[8].textContent.includes("DEPLOYED") ? '' : 'none';
+        });
+      };
+      document.querySelector('.replacement').onclick = () => {
+        document.querySelectorAll('.program-table tbody tr').forEach(row=>{
+          row.style.display = row.cells[8].textContent.includes("REPLACEMENT") ? '' : 'none';
+        });
+      };
+      document.querySelector('.showall').onclick = () => {
+        document.querySelectorAll('.program-table tbody tr').forEach(row=> row.style.display = '');
+      };
+
+      // Search
+      document.getElementById(searchId)?.addEventListener('input', function(){
+        const val = this.value.toLowerCase();
+        document.querySelectorAll('.program-table tbody tr').forEach(row=>{
+          const program = row.cells[0].textContent.toLowerCase();
+          const port = row.cells[1].textContent.toLowerCase();
+          row.style.display = (program.includes(val) || port.includes(val)) ? '' : 'none';
+        });
+      });
+
+      // Export
+      document.querySelector('.export').onclick = () => {
+        const csv = tableToCSV();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+        a.download = `${title.replace(/\s+/g,'_').toLowerCase()}_assets.csv`;
+        a.click();
+      };
+
+      function tableToCSV(){
+        const table = document.querySelector('.program-table table');
+        const rows = Array.from(table.rows);
+        return rows.map(tr => {
+          return Array.from(tr.cells).map(td => {
+            let txt = td.textContent.replace(/"/g,'""');
+            if(/(,|\n|")/.test(txt)) txt = `"${txt}"`;
+            return txt;
+          }).join(',');
+        }).join('\n');
+      }
+    }
+
+    /* ========================= NAVIGATION ========================== */
+    function loadContent(html, callback){
+      document.getElementById('mainContent').innerHTML = html;
+      if (callback) callback();
+    }
+    function initNavigation(){
+      document.getElementById('btnDashboard').addEventListener('click', ()=> loadContent(dashboardContent));
+      document.getElementById('btnProfile').addEventListener('click', ()=> loadContent(profileContent, loadProfile));
+      document.getElementById('btnGympass')
+        .addEventListener('click', ()=> loadContent(programTemplate("GYMPASS CS", "searchInputGympass"), ()=> rebindProgramEvents("GYMPASS CS","searchInputGympass")));
+      document.getElementById('btnFashionPhile')
+        .addEventListener('click', ()=> loadContent(programTemplate("FASHION PHILE", "searchInputFashion"), ()=> rebindProgramEvents("FASHION PHILE","searchInputFashion")));
+      document.getElementById('btnTMobile')
+        .addEventListener('click', ()=> loadContent(programTemplate("TMOBILE", "searchInputTMobile"), ()=> rebindProgramEvents("TMOBILE","searchInputTMobile")));
+      document.getElementById('btnAmn')
+        .addEventListener('click', ()=> loadContent(programTemplate("AMN", "searchInputAmn"), ()=> rebindProgramEvents("AMN","searchInputAmn")));
+      document.getElementById('btnShokz')
+        .addEventListener('click', ()=> loadContent(programTemplate("SHOKZ", "searchInputShokz"), ()=> rebindProgramEvents("SHOKZ","searchInputShokz")));
+      document.getElementById('btnAway')
+        .addEventListener('click', ()=> loadContent(programTemplate("AWAY", "searchInputAway"), ()=> rebindProgramEvents("AWAY","searchInputAway")));
+      document.getElementById('btnTravel')
+        .addEventListener('click', ()=> loadContent(programTemplate("TRAVEL", "searchInputTravel"), ()=> rebindProgramEvents("TRAVEL","searchInputTravel")));
+      document.getElementById('btnAldi')
+        .addEventListener('click', ()=> loadContent(programTemplate("ALDI", "searchInputAldi"), ()=> rebindProgramEvents("ALDI","searchInputAldi")));
+      document.getElementById('btnEnergyAustralia')
+        .addEventListener('click', ()=> loadContent(programTemplate("ENERGY AUSTRALIA", "searchInputEnergy"), ()=> rebindProgramEvents("ENERGY AUSTRALIA","searchInputEnergyAustralia")));
+      document.getElementById('btnCisco')
+        .addEventListener('click', ()=> loadContent(programTemplate("CISCO", "searchInputCisco"), ()=> rebindProgramEvents("CISCO","searchInputCisco")));
+      document.getElementById('btnAfa')
+        .addEventListener('click', ()=> loadContent(programTemplate("AFA", "searchInputAfa"), ()=> rebindProgramEvents("AFA","searchInputAfa")));
+      document.getElementById('btnHcsc')
+        .addEventListener('click', ()=> loadContent(programTemplate("HCSC", "searchInputHcsc"), ()=> rebindProgramEvents("HCSC","searchInputHcsc")));
+      document.getElementById('btnAspirationBank')
+        .addEventListener('click', ()=> loadContent(programTemplate("ASPIRATION BANK", "searchInputAspirationBank"), ()=> rebindProgramEvents("ASPIRATION BANK","searchInputAspirationBank")));
+      document.getElementById('btnNavia')
+        .addEventListener('click', ()=> loadContent(programTemplate("NAVIA", "searchInputNavia"), ()=> rebindProgramEvents("NAVIA","searchInputNavia")));
+      document.getElementById('btnAtmail')
+        .addEventListener('click', ()=> loadContent(programTemplate("ATMAIL", "searchInputAtmail"), ()=> rebindProgramEvents("ATMAIL","searchInputAtmail")));
+      document.getElementById('btnAbg')
+        .addEventListener('click', ()=> loadContent(programTemplate("ABG", "searchInputAbg"), ()=> rebindProgramEvents("ABG","searchInputAbg")));
+      document.getElementById('btnUsaa')
+        .addEventListener('click', ()=> loadContent(programTemplate("USAA", "searchInputUsaa"), ()=> rebindProgramEvents("USAA","searchInputUsaa")));
+      document.getElementById('btnPath')
+        .addEventListener('click', ()=> loadContent(programTemplate("PATH", "searchInputPath"), ()=> rebindProgramEvents("PATH","searchInputPath")));
+    }
+      document.getElementById('btnLogout').addEventListener('click', () => {
+      localStorage.removeItem('loggedIn');
+      window.location.href = 'index.html'; 
+});
+
+  window.onload = () => {
+  initNavigation();
+  updateProfileBar();
+  loadContent(dashboardContent);
+};
+document.addEventListener("DOMContentLoaded", function () {
+  loadContent(dashboardContent);
+  updateProfileBar();
+});
+
+  </script>
 </body>
 </html>

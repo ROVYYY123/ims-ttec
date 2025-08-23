@@ -35,6 +35,7 @@ db.run(`
     name TEXT,
     position TEXT,
     firstName TEXT,
+    middleName TEXT,
     lastName TEXT,
     email TEXT,
     phone TEXT
